@@ -22,11 +22,11 @@ async fn main() {
 
     let cfg = Config::from_env("short_url").expect("初始化配置失败");
 
-    let dao = Dao::new(cfg.0).await.expect("Dao required");
+    let dao = Dao::new(cfg.db, cfg.cache).await.expect("Dao required");
 
     let app_state = AppState {
         dao,
-        short_url: cfg.1.clone(),
+        short_url: cfg.svc.clone(),
     };
 
     let app = Router::new()
@@ -37,9 +37,9 @@ async fn main() {
         .nest("/static", axum_static::static_router("static"))
         .layer(Extension(app_state));
 
-    tracing::info!("服务器监听于：{}", &cfg.1.ip_addr);
+    tracing::info!("服务器监听于：{}", &cfg.svc.addr);
 
-    axum::Server::bind(&cfg.1.ip_addr.parse().unwrap())
+    axum::Server::bind(&cfg.svc.addr.parse().unwrap())
         .serve(app.into_make_service())
         .await
         .unwrap();

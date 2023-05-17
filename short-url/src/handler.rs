@@ -21,7 +21,7 @@ use serde::Deserialize;
 #[derive(Debug, Clone)]
 pub struct AppState {
     pub dao: util::Dao,
-    pub short_url: config::ShortUrl,
+    pub short_url: config::ServiceConfig,
 }
 
 fn redirect_with_msg(url: &str, args: Option<&MsgArgs>) -> RedirectResponse {

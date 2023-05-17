@@ -1,14 +1,26 @@
-mod short_url;
+mod service;
 
-pub use short_url::ShortUrl;
-use util::Config as Dao;
+use serde::Deserialize;
+pub use service::ServiceConfig;
+use util::{CacheConfig, DBConfig};
 
-pub struct Config;
+#[derive(Deserialize, Debug)]
+pub struct Config {
+    pub db: DBConfig,
+    pub cache: CacheConfig,
+    pub svc: ServiceConfig,
+}
 
 impl Config {
-    pub fn from_env(prefix: &str) -> Result<(Dao, ShortUrl), config::ConfigError> {
-        let dao = Dao::from_env(prefix)?;
-        let short_url = ShortUrl::from_env()?;
-        Ok((dao, short_url))
+    pub fn from_env(prefix: &str) -> Result<Self, config::ConfigError> {
+        let cfg = config::Config::builder()
+            .add_source(
+                config::Environment::default()
+                    .prefix(prefix)
+                    .try_parsing(true)
+                    .separator("."),
+            )
+            .build()?;
+        cfg.try_deserialize()
     }
 }
