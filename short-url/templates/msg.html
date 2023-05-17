@@ -1,0 +1,11 @@
+{%extends "base.html"%} {%block content%}
+<div class="card my-3 w-75 mx-auto">
+  <div class="card-header">提示信息</div>
+  <div class="card-body">
+    {{ msg }}
+  </div>
+  <div class="card-footer text-center">
+    <a href="{{ self.target_url() }}" class="btn btn-primary btn-sm">确定</a>
+  </div>
+</div>
+{%endblock%}

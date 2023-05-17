@@ -1,0 +1,30 @@
+{%extends "base.html"%}
+{%block content%}
+<h1>排行</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>短链接</th>
+            <th>原链接</th>
+            <th>访问次数</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in urls %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>
+                <a href="//{{short_url_domain}}/{{ row.id }}" target="_balnk">{{short_url_domain}}/{{ row.id }}</a>
+            </td>
+            <td>
+                <div style="width: 100%; height:100%;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;">
+                <a href="{{ row.url }}" target="_balnk">{{ row.url }}</a>
+                </div>
+            </td>
+            <td>{{ row.visit }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{%endblock%}

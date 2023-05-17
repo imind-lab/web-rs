@@ -1,0 +1,22 @@
+{%extends "base.html"%}
+{%block content%}
+<main>
+    <h1>创建你的短网址</h1>
+    {%if !self.id().is_empty() %}
+    <div class="alert alert-info my-3">
+        短链接创建成功：<a href="//{{short_url_domain}}/{{self.id()}}" target="_blank">{{short_url_domain}}/{{self.id()}}</a>
+    </div>
+    {% endif%}
+    <form action="/" method="post" autocomplete="off">
+        <div class="mb-3">
+            <label for="url" class="form-label">网址：</label>
+            <input type="url" class="form-control" id="url" name="url" placeholder="输入你要缩短的网址" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">邮箱：</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="输入你的邮箱" required>
+        </div>
+        <button type="submit" class="btn btn-primary">提交</button>
+    </form>
+  </main>
+{%endblock%}
